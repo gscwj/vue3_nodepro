@@ -1,3 +1,11 @@
+import Vue from 'vue'
+
+/*导入全部文件element-ui*/
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+/*导入axios*/
+import axios from 'axios'
+axios.defaults.withCredentials = true;
 
 const DownloadFile = (res)=>{
     let header_disposition = '';
@@ -26,10 +34,11 @@ const DownloadFile = (res)=>{
 };
 
 
-
 export default {
     name: 'mainjs',
     install: function (Vue, options) {
+        Vue.use(ElementUI);
         Object.defineProperty(Vue.prototype, '$DownloadFile', {value: DownloadFile});
+        Object.defineProperty(Vue.prototype, '$axios', {value: axios});
     }
 }
