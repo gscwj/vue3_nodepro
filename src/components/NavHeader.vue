@@ -2,6 +2,7 @@
     <el-menu
             :default-active="activeIndex"
             class="el-menu-demo"
+            router="true"
             mode="horizontal"
             @select="handleSelect"
             background-color="#545c64"
@@ -16,7 +17,7 @@
             <el-menu-item index="2-2">mt5工作区</el-menu-item>
         </el-submenu>
         <el-menu-item index="3">个人中心</el-menu-item>
-        <el-menu-item index="login">登录</el-menu-item>
+        <el-menu-item index="/login">登录</el-menu-item>
         <el-menu-item index="registe">注册</el-menu-item>
         <!--<div style="display: inline-block;height: 100%;min-width: 2em;">
             <b>登录</b>
