@@ -45,7 +45,7 @@
         methods: {
             login_form() {
                 this.$router.replace({
-                    path: '/'
+                    path: '/home_door'
                 })
             }
         }

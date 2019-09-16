@@ -4,12 +4,7 @@
             <NavHeader></NavHeader>
         </el-header>
         <el-main>
-            <div class="home">
-                <cat_test></cat_test>
-                <el-button type="success" size="mini" @click="query_node">请求node接口1</el-button>
-                <el-button type="success" size="mini" @click="download">下载文件1</el-button>
-                <a href="http://127.0.0.1:3000/files/download/234">下载文件2</a>
-            </div>
+            <router-view style="width: 100%!important;"></router-view>
         </el-main>
         <el-footer>
             <footer>
@@ -22,16 +17,12 @@
 
 <script>
     // @ is an alias to /src
-    import HelloWorld from '@/components/HelloWorld.vue'
-    import cat_test from '@/components/cat_test.vue'
     import NavHeader from "../components/NavHeader";
 
     export default {
         name: 'home',
         components: {
             NavHeader,
-            HelloWorld,
-            cat_test
         },
         data() {
             return {
@@ -49,37 +40,7 @@
             }
         },
         methods: {
-            query_node() {
-                this.$axios.post('/api/users/userInfo')
-                    .then(res => {
-                        console.log("res =", res);
-                    })
-                    .catch(err => {
-                        console.log("err =", err);
-                    })
-            },
-            download() {
-                this.$axios.get('/api/files/download/123', {
-                    responseType: 'blob',
-                    withCredentials: true,
-                    mode: 'no-cors',
-                    credentials: 'same-origin',
-                    headers: {
-                        'Content-Type': 'application/octet-stream',
-                        'X-Requested-With': 'XMLHttpRequest',
-                        // 'Content-Type': 'application/force-download',
-                        'Access-Control-Allow-Origin': '*'
-                    }
-                })
-                    .then(res => {
-                        console.log("接收到的数据：", res);
 
-                        this.$DownloadFile(res);
-                    })
-                    .catch(err => {s
-                        console.error(err.stack);
-                    })
-            }
         },
         created() {
 

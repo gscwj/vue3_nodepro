@@ -2,17 +2,17 @@
     <el-menu
             :default-active="activeIndex"
             class="el-menu-demo"
-            router="true"
+            :router="true"
             mode="horizontal"
             @select="handleSelect"
             background-color="#545c64"
             text-color="#fff"
             active-text-color="#ffd04b"
     >
-        <el-menu-item index="1">首页</el-menu-item>
+        <el-menu-item index="/home_door">首页</el-menu-item>
         <el-submenu index="2" style="margin-right: auto;">
             <template slot="title">我的工作台</template>
-            <el-menu-item index="2-3">工作区仓库</el-menu-item>
+            <el-menu-item index="/workspace">工作区仓库</el-menu-item>
             <el-menu-item index="2-1">mt4工作区</el-menu-item>
             <el-menu-item index="2-2">mt5工作区</el-menu-item>
         </el-submenu>
@@ -29,7 +29,7 @@
         name: "NavHeader",
         data(){
             return{
-                activeIndex: "1"
+                activeIndex: "/home_door"
             }
         },
         methods:{
