@@ -9,8 +9,16 @@ Vue.use(ElementUI);
 /*导入main_js_import*/
 import mainJS from './common-utils/main_js_import'
 Vue.use(mainJS);
+/*导入jquery*/
+import 'jquery'
 
+/*导入拦截器*/
+import common_router from './router_back/middle_router/common_router'
+
+Vue.config.debug = true;
 Vue.config.productionTip = false;
+
+common_router.install(router);/*实例化自定义路由拦截器*/
 
 new Vue({
   router,
