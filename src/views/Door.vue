@@ -4,6 +4,10 @@
         <el-button type="success" size="mini" @click="query_node">请求node接口1</el-button>
         <el-button type="success" size="mini" @click="download">下载文件1</el-button>
         <a href="http://127.0.0.1:3000/files/download/234">下载文件2</a>
+        <el-button type="success" size="mini" @click="showLiquidfil">展示水纹球图</el-button>
+        <div id="echartsLiquidfill" class="echartsLiquidfill_class">
+
+        </div>
     </div>
 </template>
 
@@ -28,7 +32,8 @@
                         'X-Requested-With': 'XMLHttpRequest',
                         'Access-Control-Allow-Origin': '*',
                     }
-                }
+                },
+                LiquidfilChart: null,
             }
         },
         methods: {
@@ -62,6 +67,17 @@
                     .catch(err => {
                         console.error(err.stack);
                     })
+            },
+            /*3. 展示水纹球图*/
+            showLiquidfil(){
+                this.LiquidfilChart = this.$echarts.init(document.getElementById('echartsLiquidfill'));
+                let option = {
+                    series: [{
+                        type: 'liquidFill',
+                        data: [0.6, 0.5, 0.4, 0.3]
+                    }]
+                };
+                this.LiquidfilChart.setOption(option,false);
             }
         },
         created() {
@@ -77,5 +93,9 @@
 </script>
 
 <style scoped>
-
+    .echartsLiquidfill_class{
+        height: 400px;
+        width: 100%;
+        background-color: #aaeeaa;
+    }
 </style>

@@ -15,6 +15,12 @@ import 'jquery'
 /*导入拦截器*/
 import common_router from './router_back/middle_router/common_router'
 
+/*导入echarts*/
+import echarts from 'echarts'
+Vue.prototype.$echarts = echarts;
+/*导入echarts-liquidfill*/
+import 'echarts-liquidfill'
+
 Vue.config.debug = true;
 Vue.config.productionTip = false;
 

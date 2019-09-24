@@ -10,6 +10,7 @@
             active-text-color="#ffd04b"
     >
         <el-menu-item index="/home_door">首页</el-menu-item>
+        <el-menu-item index="/echartsLiquidfill">水纹球图</el-menu-item>
         <el-submenu index="2" style="margin-right: auto;">
             <template slot="title">我的工作台</template>
             <el-menu-item index="/workspace">工作区仓库</el-menu-item>
