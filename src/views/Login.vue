@@ -2,7 +2,7 @@
     <el-row :gutter="0" class="login_kuang">
         <el-col :span="12" :offset="12">
             <div class="login_title">
-                <b id="title">奇码汇 - 拖拉拽编写EA平台</b>
+<!--                <b id="title">奇码汇 - 拖拉拽编写EA平台</b>-->
             </div>
         </el-col>
         <el-col :span="8" :offset="14">
@@ -44,8 +44,20 @@
         },
         methods: {
             login_form() {
-                this.$router.replace({
-                    path: '/home_door'
+                // this.$router.replace({
+                //     path: '/home_door'
+                // })
+                this.$axios.post('/api/users/login',{
+                    userName: '小明',
+                    passWord: 'jslkdjflsd.com',
+                    city: 'jsldkjfksd'
+                })
+                .then(res => {
+                    this.$alert(`${res.data.msg}`);
+                    console.log("res =", res);
+                })
+                .catch(err => {
+                    console.log("err =", err);
                 })
             }
         }

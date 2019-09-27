@@ -10,15 +10,15 @@
             active-text-color="#ffd04b"
     >
         <el-menu-item index="/home_door">首页</el-menu-item>
-        <el-menu-item index="/echartsLiquidfill">水纹球图</el-menu-item>
-        <el-submenu index="2" style="margin-right: auto;">
+<!--        <el-menu-item index="/echartsLiquidfill">水纹球图</el-menu-item>-->
+        <el-submenu index="2" style="margin-right: auto;" v-if="isLogin">
             <template slot="title">我的工作台</template>
             <el-menu-item index="/workspace">工作区仓库</el-menu-item>
             <el-menu-item index="2-1">mt4工作区</el-menu-item>
             <el-menu-item index="2-2">mt5工作区</el-menu-item>
         </el-submenu>
-        <el-menu-item index="3">个人中心</el-menu-item>
-        <el-menu-item index="/login">登录</el-menu-item>
+        <el-menu-item index="3" v-if="isLogin">个人中心</el-menu-item>
+        <el-menu-item index="/login" v-if="!isLogin">登录</el-menu-item>
         <el-menu-item index="registe">注册</el-menu-item>
         <!--<div style="display: inline-block;height: 100%;min-width: 2em;">
             <b>登录</b>
@@ -28,9 +28,23 @@
 <script>
     export default {
         name: "NavHeader",
+        props:{
+            activeMenu: {
+              type: String,
+              default: "/home_door"
+            },
+            isLogin:{
+                type: Boolean,
+                required: true
+            }
+        },
+        // computed:{
+        //
+        // },
         data(){
             return{
-                activeIndex: "/home_door"
+                activeIndex: this.activeMenu,
+                is_login: this.isLogin
             }
         },
         methods:{

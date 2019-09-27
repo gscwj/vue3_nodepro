@@ -7,5 +7,6 @@ import common_env from './modules/common_env'
 const Store = new vuex.Store({
     modules:{
         common_env_md: common_env,
-    }
+    },
+    plugins:[createPersistedState({paths: ['common_env_md']})]
 });
