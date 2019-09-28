@@ -37,4 +37,4 @@ class Interceptor {
 
     }
 }
-export default Base_router
+export default Interceptor
