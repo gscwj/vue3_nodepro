@@ -1,5 +1,5 @@
 /*
-* 路由对象基础类Base_router
+* 路由对象基础类 Interceptor
 * */
 class Interceptor {
     constructor(router){

@@ -4,7 +4,7 @@
             <NavHeader></NavHeader>
         </el-header>
         <el-main>
-            <router-view style="width: 100%!important;"></router-view>
+            <router-view style="width: 100%!important;"/>
         </el-main>
         <el-footer>
             <footer>
@@ -43,7 +43,7 @@
 
         },
         created() {
-
+            console.log("进入Home首页");
         },
         beforeDestroy() {
 
@@ -62,6 +62,8 @@
         color: #333;
         text-align: center;
         padding: 0!important;
+        position: sticky;
+        top: 0;
     }
 
     .el-footer {
