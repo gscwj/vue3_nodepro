@@ -64,6 +64,7 @@
         padding: 0!important;
         position: sticky;
         top: 0;
+        z-index: 1000;
     }
 
     .el-footer {
