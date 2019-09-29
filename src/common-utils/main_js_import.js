@@ -27,7 +27,6 @@ const DownloadFile = (res)=>{
     else{/*IE10+下载*/
         navigator.msSaveBlob(blob, filename);
     }
-
 };
 
 
