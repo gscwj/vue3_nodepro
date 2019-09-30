@@ -85,6 +85,8 @@
                     }
                 ],
                 dialogVisible: false,
+                tree_chart_cav:null,//tree图对象
+                curr_charts: [],//存储当前页面中的用于自适应页面大小的图对象
             }
         },
         methods: {
@@ -239,36 +241,31 @@
             generate_tree_chart_data() {
                 let max_limit = 3;
                 let data = {
-                    name: "小米科技有限公司",
+                    name: "洁柔",
+                    level: 0,
                     children: [
                         {
-                            name: '公司股东',
+                            name: '分项1',
+                            level: 1,
                             count: 5,
                             children: []
                         },
                         {
-                            name: '年报',
+                            name: '分项2',
+                            level: 1,
                             count: 3,
                             children: []
                         },
                         {
-                            name: '处罚信息',
+                            name: '分项3',
+                            level: 1,
                             count: 5,
                             children: []
                         },
                         {
-                            name: '公司高管',
+                            name: '分项4',
+                            level: 1,
                             count: 2,
-                            children: []
-                        },
-                        {
-                            name: '公司变更',
-                            count: 4,
-                            children: []
-                        },
-                        {
-                            name: '其他',
-                            count: 3,
                             children: []
                         },
                     ]
@@ -279,124 +276,20 @@
                     for (let i = 0; i < item.count; i++) {
                         if (i + 1 > 3) {
                             item.children.push({
-                                name: '其它项...'
+                                name: '其它项...',
+                                level: 2,
                             });
                             break;
                         }
                         item.children.push({
                             name: content_pre + (i + 1).toString(),
+                            level: 2,
                         });
                     }
                 });
                 return data;
             },
-            draw_tree_chart() {
-                let tree_chart_cav = this.$echarts.init(document.getElementById('tree_chart'));
-                /*let data = {
-                    "name": "余杭区: 50675",
-                    "children": [
-                        {
-                            "id": 102,
-                            "name": "高端制造:4631",
-                            type: "lll",
-                            "children": [
-                                {
-                                    "id": 10203,
-                                    "name": "其他:2402"
-                                }, {
-                                    "id": 10202,
-                                    "name": "货摊纺织、服装及鞋零售:351"
-                                }, {
-                                    "id": 10201,
-                                    "name": "技能培训、教育辅助及其他教育:1878"
-                                }]
-                        },
-                        {
-                            "id": 106,
-                            "name": "金融服务:1559",
-                            "children": [{
-                                "id": 10603,
-                                "name": "其他:19"
-                            }, {
-                                "id": 10602,
-                                "name": "控股公司服务:27"
-                            }, {
-                                "id": 10601,
-                                "name": "投资与资产管理:1513"
-                            }]
-                        },
-                        {
-                            "id": 107,
-                            "name": "生物健康:1435",
-                            "children": [{
-                                "id": 10703,
-                                "name": "其他:745"
-                            }, {
-                                "id": 10701,
-                                "name": "医学研究和试验发展:353"
-                            }, {
-                                "id": 10702,
-                                "name": "生物技术推广服务:337"
-                            }]
-                        },
-                        {
-                            "id": 103,
-                            "name": "时尚行业:5057",
-                            "children": [{
-                                "id": 10302,
-                                "name": "服装零售:1758"
-                            }, {
-                                "id": 10301,
-                                "name": "服装批发:2805"
-                            }, {
-                                "id": 10303,
-                                "name": "其他:494"
-                            }]
-                        },
-                        {
-                            "id": 104,
-                            "name": "旅游休闲:953",
-                            "children": [{
-                                "id": 10403,
-                                "name": "其他:560"
-                            }, {
-                                "id": 10402,
-                                "name": "其他食品零售:172"
-                            }, {
-                                "id": 10401,
-                                "name": "其他未列明餐饮业:221"
-                            }]
-                        },
-                        {
-                            "id": 105,
-                            "name": "文化创意:4131",
-                            "children": [{
-                                "id": 10503,
-                                "name": "其他:1448"
-                            }, {
-                                "id": 10502,
-                                "name": "其他技术推广服务:1174"
-                            }, {
-                                "id": 10501,
-                                "name": "其他体育:1509"
-                            }]
-                        },
-                        {
-                            "id": 101,
-                            "name": "数字经济:32909",
-                            "children": [{
-                                "id": 10101,
-                                "name": "其他科技推广和应用服务业:18181"
-                            }, {
-                                "id": 10102,
-                                "name": "其他未列明信息技术服务业:8817"
-                            }, {
-                                "id": 10103,
-                                "name": "其他:5911"
-                            }]
-                        }
-                    ]
-                };*/
+            generate_tree_chart(){
                 let data = this.generate_tree_chart_data();
                 let option = {
                     series: [
@@ -410,7 +303,7 @@
                             bottom: '10%',
                             right: '25%',
                             left: '7%',
-                            symbolSize: 8,
+                            symbolSize: 12,
                             symbol: 'circle',
                             // 展开发的层级数
                             initialTreeDepth: 3,
@@ -446,10 +339,27 @@
                         }
                     ],
                 };
-                tree_chart_cav.setOption(option, false);
-                tree_chart_cav.on('click', {seriesIndex: 0}, (event_obj) => {
+                this.tree_chart_cav.clear();
+                this.tree_chart_cav.setOption(option, false);
+            },
+            chart_resize_auto(){
+              let event = new Event('resize');
+              window.dispatchEvent(event);
+            },
+            /*绑定到window上的resize事件上，用于循环自适应记录的所有图形*/
+            chart_resize(){
+                let charts = this.curr_charts;
+                for(let i=0; i<curr_charts; i++){
+                    charts[i].resize();
+                }
+            },
+            draw_tree_chart() {
+                this.tree_chart_cav = this.$echarts.init(document.getElementById('tree_chart'));
+                this.generate_tree_chart();
+                this.tree_chart_cav.on('click', {seriesIndex: 0}, (event_obj) => {
                     console.log("event_obj =", event_obj);
-                    var container = document.getElementById('tree_chart');
+                    /*1、根据节点个数扩展所在图层的大小；可以解决动态改变图层的高度，不收缩原图（导致越来越小）*/
+                    /*var container = document.getElementById('tree_chart');
                     var allNode = 0;
                     var nodes = tree_chart_cav._chartsViews[0]._data._graphicEls;
                     for (var i = 0, count = nodes.length; i < count; i++) {
@@ -463,26 +373,30 @@
                     var newWidth = Math.max(currentHeight, height);
                     container.style.width = window.innerWidth + 'px';
                     container.style.height = newWidth + 'px';
-                    tree_chart_cav.resize();
-                    console.log("event_obj.name =", event_obj.name);
-                    if (event_obj.name === '其它项...') {
-                        this.dialogVisible = true;
+                    tree_chart_cav.resize();*/
+                    /*2、解决roam打开时，移动图表，再收缩根节点之后，图表消失bug*/
+                    if(event_obj.data.level===0){//此时点击的节点为根节点
+                        this.generate_tree_chart();
                     }
-                    // series index 1 的系列中的 name 为 'xx' 的元素被 'mouseover' 时，此方法被回调。
+
                 });
+                if($.inArray(this.tree_chart_cav,this.curr_charts)===-1){
+                    this.curr_charts.push(this.tree_chart_cav);
+                }
+                this.chart_resize_auto();//首次加载图表时主动触发一次resize事件，用于图表自适应
             }
         },
         created() {
             console.log("进入HomeDoor首页");
         },
         mounted() {
-
+            //这里记得绑定一下window的resize事件：chart_resize
         },
         beforeDestroy() {
 
         },
         destroyed() {
-
+            //这里记得解绑一下window的resize事件：chart_resize
         }
     }
 </script>

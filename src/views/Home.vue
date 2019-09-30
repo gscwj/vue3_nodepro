@@ -1,10 +1,21 @@
 <template>
     <el-container>
         <el-header>
-            <NavHeader></NavHeader>
+            <NavHeader :is-login="login_state"></NavHeader>
         </el-header>
         <el-main>
             <router-view style="width: 100%!important;"/>
+            <div>
+                <el-dialog
+                        :close-on-click-modal="false"
+                        :visible.sync="loginDialogVisible"
+                        width="40%"
+                        top="5vh"
+                        :before-close="beforeDialogClose"
+                        center>
+                    <login-form></login-form>
+                </el-dialog>
+            </div>
         </el-main>
         <el-footer>
             <footer>
@@ -16,12 +27,16 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex'
+    import { mapMutations } from 'vuex'
     // @ is an alias to /src
     import NavHeader from "../components/NavHeader";
+    import loginForm from "../components/loginForm"
 
     export default {
         name: 'home',
         components: {
+            loginForm,
             NavHeader,
         },
         data() {
@@ -36,11 +51,28 @@
                         'X-Requested-With': 'XMLHttpRequest',
                         'Access-Control-Allow-Origin': '*',
                     }
-                }
+                },
             }
         },
+        computed:{
+            ...mapState({
+                login_state: 'login_d',
+                loginDialogVisible: 'login_form'
+            })
+        },
         methods: {
-
+            beforeDialogClose(done){
+                this.close_login_form();
+                // this.$confirm('确认关闭？')
+                //     .then(_ => {
+                //         done();
+                //     })
+                //     .catch(_ => {});
+            },
+            ...mapMutations({
+                // open_login_form: 'open_login_form', // 映射 this.add() 为 this.$store.commit('increment')
+                close_login_form: 'close_login_form' // 映射 this.add() 为 this.$store.commit('increment')
+            })
         },
         created() {
             console.log("进入Home首页");

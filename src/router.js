@@ -10,6 +10,8 @@ const Home = r=>require.ensure([],() =>r(require('@/views/Home')));
 const Door = r=>require.ensure([],() =>r(require('@/views/Door')));
 const Login = r=>require.ensure([],() =>r(require('@/views/Login')));
 const mt4_workspace = r=>require.ensure([],() =>r(require('@/views/mt4_workspace')));
+const personCenter = r=>require.ensure([],() =>r(require('@/views/personCenter')));
+
 Vue.use(Router);
 
 export default new Router({
@@ -24,6 +26,11 @@ export default new Router({
           path: '/home_door',
           name: 'Door',
           component: Door
+        },
+        {
+          path: '/center',
+          name: 'personCenter',
+          component: personCenter
         },
         {
           path: '/workspace',
