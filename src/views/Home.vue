@@ -8,18 +8,18 @@
             <div>
                 <el-dialog
                         :close-on-click-modal="false"
-                        :visible.sync="loginDialogVisible"
+                        :visible="loginDialogVisible"
                         width="40%"
                         top="5vh"
                         :before-close="beforeDialogClose"
                         center>
-                    <login-form></login-form>
+                    <login-form ref="child_login"></login-form>
                 </el-dialog>
             </div>
         </el-main>
         <el-footer>
             <footer>
-                jksdkfjsldf<br/>
+                快捷餐厅“2019.10.10”<br/>
                 吉林省的看法加快速度
             </footer>
         </el-footer>
@@ -41,6 +41,8 @@
         },
         data() {
             return {
+                login_form_name: 'login_form1',
+
                 host: 'http://127.0.0.1:3000',
                 host1: '/api/cat',
                 get_config: {
@@ -62,12 +64,18 @@
         },
         methods: {
             beforeDialogClose(done){
+                this.$refs['child_login'].reset_form();
                 this.close_login_form();
+                done();
                 // this.$confirm('确认关闭？')
                 //     .then(_ => {
                 //         done();
                 //     })
                 //     .catch(_ => {});
+            },
+            /*清空表单内容*/
+            resetForm (formName){
+                this.$refs[formName].resetFields();
             },
             ...mapMutations({
                 // open_login_form: 'open_login_form', // 映射 this.add() 为 this.$store.commit('increment')

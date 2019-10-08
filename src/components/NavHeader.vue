@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div style="position: relative">
         <el-menu
                 :default-active="activeIndex"
                 class="el-menu-demo"
@@ -27,7 +27,8 @@
             </div>-->
         </el-menu>
         <div class="user_info">
-            <span class="user_name"></span>
+            <span>欢迎,</span>
+            <span class="user_name">小明</span>
         </div>
     </div>
 
@@ -104,5 +105,25 @@
     }
     .nav_spector{
         margin-right: auto;
+    }
+    .user_info{
+        font-size: 0.9rem;
+        /*font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;*/
+        position: absolute;
+        top: 1%;
+        right: 12em;
+        /*background-color: #67CF22;*/
+        height: 95%;
+        width: 7em;
+        z-index: 10;
+        display: flex;
+        justify-content: center;
+        align-items: end;
+        padding: 5px;
+        box-sizing: border-box;
+        color: #67CF22;
+    }
+    .user_name{
+        font-size: 1.2em;
     }
 </style>

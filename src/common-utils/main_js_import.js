@@ -28,12 +28,18 @@ const DownloadFile = (res)=>{
         navigator.msSaveBlob(blob, filename);
     }
 };
+/*3. 封装一个自定义alert警示框：在loginForm组件中定义，因为这里无法获取到createElement*/
 
+/*清空表单内容*/
+const resetForm = (formName)=>{
+    Vue.$refs[formName].resetFields();
+};
 
 export default {
     name: 'mainjs',
     install: function (Vue, options) {
         Object.defineProperty(Vue.prototype, '$DownloadFile', {value: DownloadFile});
         Object.defineProperty(Vue.prototype, '$axios', {value: axios});
+        Object.defineProperty(Vue.prototype, '$resetForm', {value: resetForm});
     }
 }

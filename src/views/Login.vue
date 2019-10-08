@@ -47,14 +47,21 @@
                 // this.$router.replace({
                 //     path: '/home_door'
                 // })
-                this.$axios.post('/api/users/login',{
-                    userName: '小明',
-                    passWord: 'jslkdjflsd.com',
-                    city: 'jsldkjfksd'
+                this.$axios.post('/api/users/logind',{
+                    userName: this.login_user.name.trim(),
+                    passWord: this.login_user.passwd.trim(),
+                    city: this.login_user.vertiry_code.trim()
                 })
                 .then(res => {
-                    this.$alert(`${res.data.msg}`);
-                    console.log("res =", res);
+                    console.log("res: ",res);
+                    if(res.data.hasOwnProperty('msg')){
+                        // this.$alert(`${res.data.msg}`);
+                    }
+                    if(res.data.hasOwnProperty('success')){
+                        if(res.data.success){
+                            console.log("用户登陆成功：",res.data.res_data);
+                        }
+                    }
                 })
                 .catch(err => {
                     console.log("err =", err);

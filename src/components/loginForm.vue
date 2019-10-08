@@ -17,6 +17,7 @@
             </el-form-item>
             <el-form-item style="text-align: right">
                 <el-button size="mini" type="primary" @click="login_event('login_form')">登录</el-button>
+<!--                <el-button size="mini" type="primary" @click="reset_form">重置</el-button>-->
             </el-form-item>
         </el-form>
     </div>
@@ -24,48 +25,10 @@
 
 <script>
     import { mapMutations } from 'vuex'
+    import {validate_login_vertify,validate_login_passwd,validate_login_name} from '../common-utils/rule_api'
     export default {
         name: "loginForm",
         data(){
-            var validate_login_name = (rule, value, callback) => {
-                let value_tmp = value.trim();
-                let len_value = value_tmp.length;
-                if (value_tmp === '') {
-                    callback(new Error('请输入用户名'));
-                }
-                else if(len_value>40){
-                    callback(new Error('长度限制: 1-40个字符'));
-                }
-                else {
-                    callback();
-                }
-            };
-            var validate_login_passwd = (rule, value, callback) => {
-                let value_tmp = value;
-                let len_value = value_tmp.length;
-                if (value_tmp === '') {
-                    callback(new Error('请输入密码'));
-                }
-                else if(len_value>18){
-                    callback(new Error('长度限制: 最大18个字符'));
-                }
-                else {
-                    callback();
-                }
-            };
-            var validate_login_vertify = (rule, value, callback) => {
-                let value_tmp = value;
-                let len_value = value_tmp.length;
-                if (value_tmp === '') {
-                    callback(new Error('请输入验证码'));
-                }
-                else if(len_value!==4){
-                    callback(new Error('长度限制: 仅能4个字符'));
-                }
-                else {
-                    callback();
-                }
-            };
             return {
                 labelPosition: 'left',
                 loginForm: {
@@ -86,6 +49,9 @@
                 }
             }
         },
+        mounted(){
+            console.log("进入到loginForm的mounted");
+        },
         methods:{
             login_event(form_ref) {
                 this.$refs[form_ref].validate((valid) => {
@@ -97,11 +63,33 @@
                         })
                             .then(res => {
                                 console.log("res =", res);
-                                if(res['data']['success']){
-                                    this.go_login();
+                                if(res.data.hasOwnProperty('msg')){
+                                    // this.$alert(`${res.data.msg}`);
+                                    let alert_obj = {
+                                        title: '警告',
+                                        msg: res.data.msg,
+                                        style_obj: {
+                                            style: 'color: red; font-size: 12px'
+                                        },
+                                        confirm_btn: {
+                                            show: false,
+                                            text: '确定'
+                                        },
+                                        cancel_btn: {
+                                            show: false,
+                                            text: '取消'
+                                        },
+
+                                    };
+                                    this.MyAlert2(alert_obj);
                                 }
-                                this.$alert(`${res.data.msg}`);
-                                this.close_login_form();
+                                if(res.data.hasOwnProperty('success')){
+                                    if(res.data.success){
+                                        console.log("用户登陆成功：",res.data.res_data);
+                                        this.go_login();
+                                        this.close_login_form();
+                                    }
+                                }
                             })
                             .catch(err => {
                                 console.log("err =", err);
@@ -111,6 +99,52 @@
                         return false;
                     }
                 });
+
+            },
+            reset_form(){
+                this.$refs['login_form'].resetFields();
+            },
+            MyAlert2(alert_obj){
+                const h = this.$createElement;
+                let title = alert_obj.title;
+                let msg = alert_obj.msg;
+                let confirm = alert_obj.confirm_btn;
+                let cancel = alert_obj.cancel_btn;
+                let style_obj = alert_obj.style_obj;
+                let ret_obj =  this.$msgbox({
+                    title: title,
+                    message: h('p', null, [
+                        h('span', style_obj, msg)
+                    ]),
+                    closeOnClickModal: false,/*是否点击关闭遮罩*/
+                    showConfirmButton: confirm.show,
+                    confirmButtonText: confirm.text,
+                    showCancelButton: cancel.show,
+                    cancelButtonText: cancel.text,
+                    beforeClose: (action, instance, done) => {
+                        done();
+                        /*if (action === 'confirm') {
+                            instance.confirmButtonLoading = true;
+                            instance.confirmButtonText = '执行中...';
+                            setTimeout(() => {
+                                done();
+                                setTimeout(() => {
+                                    instance.confirmButtonLoading = false;
+                                }, 300);
+                            }, 3000);
+                        } else {
+                            done();
+                        }*/
+                    }
+                }).then(action => {
+                    /*this.$message({
+                        type: 'info',
+                        message: 'action: ' + action
+                    });*/
+                }).catch(err=>{
+                    console.log("err: ",err);
+                });
+                return ret_obj;
 
             },
             ...mapMutations({
